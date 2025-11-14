@@ -415,6 +415,303 @@
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Expected Return Rate
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={formatNumberWithCommas(fireInputs.returnRate)}
+                              onChange={handleInputChange(setFireInputs, 'returnRate')}
+                              className="w-full pl-4 pr-7 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <span className="absolute right-3 top-2 text-gray-500">%</span>
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Safe Withdrawal Rate
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={formatNumberWithCommas(fireInputs.withdrawalRate)}
+                              onChange={handleInputChange(setFireInputs, 'withdrawalRate')}
+                              className="w-full pl-4 pr-7 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <span className="absolute right-3 top-2 text-gray-500">%</span>
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Inflation Rate
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={formatNumberWithCommas(fireInputs.inflationRate)}
+                              onChange={handleInputChange(setFireInputs, 'inflationRate')}
+                              className="w-full pl-4 pr-7 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <span className="absolute right-3 top-2 text-gray-500">%</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4">Results</h3>
+                        <div className="space-y-4">
+                          <div className="bg-white rounded-lg p-4 shadow">
+                            <p className="text-sm text-gray-600 mb-1">FIRE Number</p>
+                            <p className="text-3xl font-bold text-blue-600">
+                              {formatCurrency(fireResults.fireNumber)}
+                            </p>
+                          </div>
+                          <div className="bg-white rounded-lg p-4 shadow">
+                            <p className="text-sm text-gray-600 mb-1">Inflation-Adjusted FIRE Number</p>
+                            <p className="text-2xl font-bold text-purple-600">
+                              {formatCurrency(fireResults.inflationAdjustedFireNumber)}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">In today's dollars</p>
+                          </div>
+                          <div className="bg-white rounded-lg p-4 shadow">
+                            <p className="text-sm text-gray-600 mb-1">Years to FIRE</p>
+                            <p className="text-2xl font-bold text-gray-800">
+                              {fireResults.yearsToFIRE} years
+                            </p>
+                          </div>
+                          <div className="bg-white rounded-lg p-4 shadow">
+                            <p className="text-sm text-gray-600 mb-1">FIRE Age</p>
+                            <p className="text-2xl font-bold text-gray-800">
+                              {fireResults.fireAge} years old
+                            </p>
+                          </div>
+                          <div className="bg-white rounded-lg p-4 shadow">
+                            <p className="text-sm text-gray-600 mb-1">Current Progress</p>
+                            <div className="flex items-center gap-2">
+                              <div className="flex-1 bg-gray-200 rounded-full h-3">
+                                <div
+                                  className="bg-green-500 h-3 rounded-full transition-all"
+                                  style={{ width: `${Math.min(fireResults.currentProgress, 100)}%` }}
+                                />
+                              </div>
+                              <span className="text-lg font-bold text-gray-800">
+                                {fireResults.currentProgress.toFixed(1)}%
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-lg p-6 shadow-lg">
+                      <h3 className="text-lg font-bold text-gray-800 mb-4">Path to FIRE</h3>
+                      <ChartComponent 
+                        chartRef={fireChartRef}
+                        type="line"
+                        data={fireChartData}
+                        options={chartOptions}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'coast' && (
+                  <div className="bg-white rounded-xl shadow-xl p-6 md:p-8">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Coast FIRE Calculator</h2>
+                    <div className="grid lg:grid-cols-2 gap-6 mb-6">
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Current Age
+                          </label>
+                          <input
+                            type="text"
+                            value={formatNumberWithCommas(coastInputs.currentAge)}
+                            onChange={handleInputChange(setCoastInputs, 'currentAge')}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Target Retirement Age
+                          </label>
+                          <input
+                            type="text"
+                            value={formatNumberWithCommas(coastInputs.retirementAge)}
+                            onChange={handleInputChange(setCoastInputs, 'retirementAge')}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Current Invested
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-3 top-2 text-gray-500">$</span>
+                            <input
+                              type="text"
+                              value={formatNumberWithCommas(coastInputs.currentSavings)}
+                              onChange={handleInputChange(setCoastInputs, 'currentSavings')}
+                              className="w-full pl-7 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Monthly Contribution
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-3 top-2 text-gray-500">$</span>
+                            <input
+                              type="text"
+                              value={formatNumberWithCommas(coastInputs.monthlyContribution)}
+                              onChange={handleInputChange(setCoastInputs, 'monthlyContribution')}
+                              className="w-full pl-7 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Annual Spending in Retirement
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-3 top-2 text-gray-500">$</span>
+                            <input
+                              type="text"
+                              value={formatNumberWithCommas(coastInputs.annualSpending)}
+                              onChange={handleInputChange(setCoastInputs, 'annualSpending')}
+                              className="w-full pl-7 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Expected Return Rate
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={formatNumberWithCommas(coastInputs.returnRate)}
+                              onChange={handleInputChange(setCoastInputs, 'returnRate')}
+                              className="w-full pl-4 pr-7 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <span className="absolute right-3 top-2 text-gray-500">%</span>
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Safe Withdrawal Rate
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={formatNumberWithCommas(coastInputs.withdrawalRate)}
+                              onChange={handleInputChange(setCoastInputs, 'withdrawalRate')}
+                              className="w-full pl-4 pr-7 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <span className="absolute right-3 top-2 text-gray-500">%</span>
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Inflation Rate
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={formatNumberWithCommas(coastInputs.inflationRate)}
+                              onChange={handleInputChange(setCoastInputs, 'inflationRate')}
+                              className="w-full pl-4 pr-7 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <span className="absolute right-3 top-2 text-gray-500">%</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4">Results</h3>
+                        <div className="space-y-4">
+                          <div className="bg-white rounded-lg p-4 shadow">
+                            <p className="text-sm text-gray-600 mb-1">Coast FIRE Number</p>
+                            <p className="text-3xl font-bold text-blue-600">
+                              {formatCurrency(coastResults.coastFireNumber)}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              Amount needed today to coast to retirement
+                            </p>
+                          </div>
+                          <div className="bg-white rounded-lg p-4 shadow">
+                            <p className="text-sm text-gray-600 mb-1">Full FIRE Number</p>
+                            <p className="text-2xl font-bold text-gray-800">
+                              {formatCurrency(coastResults.fireNumber)}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              Total needed at retirement age
+                            </p>
+                          </div>
+                          <div className="bg-white rounded-lg p-4 shadow">
+                            <p className="text-sm text-gray-600 mb-1">Inflation-Adjusted FIRE Number</p>
+                            <p className="text-2xl font-bold text-purple-600">
+                              {formatCurrency(coastResults.inflationAdjustedFireNumber)}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">In today's dollars</p>
+                          </div>
+                          {!coastResults.hasReachedCoastFIRE && coastResults.yearsToCoastFire < 100 && (
+                            <div className="bg-white rounded-lg p-4 shadow">
+                              <p className="text-sm text-gray-600 mb-1">Years to Coast FIRE</p>
+                              <p className="text-2xl font-bold text-orange-600">
+                                {coastResults.yearsToCoastFire} years
+                              </p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                At age {coastResults.coastFireAge}
+                              </p>
+                            </div>
+                          )}
+                          <div className={`rounded-lg p-4 shadow ${coastResults.hasReachedCoastFIRE ? 'bg-green-100 border-2 border-green-400' : 'bg-white'}`}>
+                            <p className="text-sm text-gray-600 mb-1">Status</p>
+                            <p className={`text-2xl font-bold ${coastResults.hasReachedCoastFIRE ? 'text-green-600' : 'text-orange-600'}`}>
+                              {coastResults.hasReachedCoastFIRE ? '🎉 You reached Coast FIRE!' : 'Not yet at Coast FIRE'}
+                            </p>
+                          </div>
+                          <div className="bg-white rounded-lg p-4 shadow">
+                            <p className="text-sm text-gray-600 mb-1">Progress to Coast FIRE</p>
+                            <div className="flex items-center gap-2">
+                              <div className="flex-1 bg-gray-200 rounded-full h-3">
+                                <div
+                                  className="bg-blue-500 h-3 rounded-full transition-all"
+                                  style={{ width: `${Math.min(coastResults.percentToCoastFIRE, 100)}%` }}
+                                />
+                              </div>
+                              <span className="text-lg font-bold text-gray-800">
+                                {coastResults.percentToCoastFIRE.toFixed(1)}%
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-lg p-6 shadow-lg">
+                      <h3 className="text-lg font-bold text-gray-800 mb-4">Coast FIRE Projection</h3>
+                      <ChartComponent 
+                        chartRef={coastChartRef}
+                        type="line"
+                        data={coastChartData}
+                        options={chartOptions}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <footer className="mt-8 text-center text-gray-600 text-sm">
+                  <p>Open source financial calculators • Made with React</p>
+                  <p className="mt-1 text-xs">Results are estimates. Consult with a financial advisor for personalized advice.</p>
+                </footer>
+              </div>
+            </div>
+          );
+        };
+
+        ReactDOM.render(<FinanceCalculators />, document.getElementById('root'));
+    </script>
+</body>
+</html>-1">
                             Current Age
                           </label>
                           <input
@@ -636,4 +933,4 @@
                           </div>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray
+                          <label className="block text-sm font-medium text-gray-700 mb
